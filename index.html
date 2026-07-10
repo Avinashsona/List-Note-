@@ -44,14 +44,22 @@ function render() {
   list.innerHTML = "";
   t = 0;
 
-  items.forEach(x => {
+  items.forEach((x, index) => {
     t += x.amount;
 
     let d = document.createElement("div");
     d.className = "line";
     d.style.display = "flex";
     d.style.justifyContent = "space-between";
-    d.innerHTML = "<span>" + x.name + "</span><span>₹" + x.amount.toFixed(2) + "</span>";
+    d.innerHTML = `
+<label style="display:flex;justify-content:space-between;width:100%">
+  <span>
+    <input type="checkbox" ${x.done ? "checked" : ""}
+    onchange="items[${index}].done=this.checked;save();render();">
+    ${x.done ? "<s>"+x.name+"</s>" : x.name}
+  </span>
+  <span>₹${x.amount.toFixed(2)}</span>
+</label>`;
     list.appendChild(d);
   });
 
@@ -64,7 +72,11 @@ function add() {
 
   if (!i || isNaN(a)) return;
 
-  items.push({ name: i, amount: a });
+  items.push({
+  name: i,
+  amount: a,
+  done: false
+});
   save();
   render();
 
