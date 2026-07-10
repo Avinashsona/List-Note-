@@ -85,7 +85,11 @@ function render() {
 
   <span>
     ₹${x.amount.toFixed(2)}
-    <button type="button" onclick="removeItem(${index})">🗑️</button>
+    <button type="button"
+onclick="removeItem(${index})"
+style="background:#d32f2f;color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;">
+Delete
+</button>
   </span>
 </label>`;
     list.appendChild(d);
