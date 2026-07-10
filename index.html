@@ -29,17 +29,41 @@ button{padding:8px 14px}
 <input id="amt" type="number" placeholder="₹">
 <button onclick="add()">Add</button>
 <button onclick="print()">PDF</button>
+<button id="undoBtn" onclick="undoDelete()" style="display:none;">↩️ Undo</button>
 <div id="list"></div>
 <div class="line" id="total" style="position:fixed;right:40px;bottom:20px;text-align:right;color:#0b57d0;font-weight:bold;">कुल: ₹0</div>
 </div>
 <script>
+let lastDeleted = null;
 let items = JSON.parse(localStorage.getItem("items")) || [];
 let t = 0;
 
 function save() {
   localStorage.setItem("items", JSON.stringify(items));
 }
+function removeItem(index){
+  lastDeleted = {
+    item: items[index],
+    index: index
+  };
 
+  items.splice(index,1);
+  save();
+  render();
+
+  document.getElementById("undoBtn").style.display = "inline-block";
+}
+
+function undoDelete(){
+  if(lastDeleted){
+    items.splice(lastDeleted.index,0,lastDeleted.item);
+    lastDeleted = null;
+    save();
+    render();
+
+    document.getElementById("undoBtn").style.display = "none";
+  }
+}
 function render() {
   list.innerHTML = "";
   t = 0;
@@ -58,7 +82,11 @@ function render() {
     onchange="items[${index}].done=this.checked;save();render();">
     ${x.done ? "<s>"+x.name+"</s>" : x.name}
   </span>
-  <span>₹${x.amount.toFixed(2)}</span>
+
+  <span>
+    ₹${x.amount.toFixed(2)}
+    <button type="button" onclick="removeItem(${index})">🗑️</button>
+  </span>
 </label>`;
     list.appendChild(d);
   });
