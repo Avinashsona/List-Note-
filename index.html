@@ -33,26 +33,55 @@ button{padding:8px 14px}
 <div class="line" id="total" style="position:fixed;right:40px;bottom:20px;text-align:right;color:#0b57d0;font-weight:bold;">कुल: ₹0</div>
 </div>
 <script>
-let t=0;
-function add(){
-let i=item.value.trim(),a=parseFloat(amt.value);
-if(!i||isNaN(a))return;
-t+=a;
-let d=document.createElement('div');
-d.className='line';
-d.style.display='flex';
-d.style.justifyContent='space-between';
-d.innerHTML='<span>'+i+'</span><span>₹'+a.toFixed(2)+'</span>';
-list.appendChild(d);
-total.textContent='कुल: ₹'+t.toFixed(2);
-item.value='';amt.value='';
+let items = JSON.parse(localStorage.getItem("items")) || [];
+let t = 0;
+
+function save() {
+  localStorage.setItem("items", JSON.stringify(items));
 }
 
-function updateDT(){
- const n=new Date();
- document.getElementById('date').textContent=n.toLocaleDateString('en-GB');
- document.getElementById('time').textContent=n.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+function render() {
+  list.innerHTML = "";
+  t = 0;
+
+  items.forEach(x => {
+    t += x.amount;
+
+    let d = document.createElement("div");
+    d.className = "line";
+    d.style.display = "flex";
+    d.style.justifyContent = "space-between";
+    d.innerHTML = "<span>" + x.name + "</span><span>₹" + x.amount.toFixed(2) + "</span>";
+    list.appendChild(d);
+  });
+
+  total.textContent = "कुल: ₹" + t.toFixed(2);
 }
+
+function add() {
+  let i = item.value.trim();
+  let a = parseFloat(amt.value);
+
+  if (!i || isNaN(a)) return;
+
+  items.push({ name: i, amount: a });
+  save();
+  render();
+
+  item.value = "";
+  amt.value = "";
+}
+
+function updateDT() {
+  const n = new Date();
+  date.textContent = n.toLocaleDateString("en-GB");
+  time.textContent = n.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+render();
 updateDT();
-setInterval(updateDT,1000);
-</script></body></html>
+setInterval(updateDT, 1000);
+ </script></body></html>
