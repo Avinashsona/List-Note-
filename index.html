@@ -139,7 +139,10 @@ Remove
     list.appendChild(d);
   });
 
-  total.textContent = "कुल: ₹" + t.toFixed(2);
+  total.innerHTML =
+"Total Items: " + count +
+"<br>" +
+"कुल: ₹" + t.toFixed(2);
 }
 
 function add() {
