@@ -173,7 +173,11 @@ function add() {
   let i = item.value.trim();
   let a = parseFloat(amt.value);
 
-  if (!i || isNaN(a)) return;
+  if (!i) return;
+
+if (isNaN(a)) {
+    a = 0;
+}
 
   items.push({
   name: i,
