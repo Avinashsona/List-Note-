@@ -95,7 +95,23 @@ function removeItem(index){
 
   document.getElementById("undoBtn").style.display = "inline-block";
 }
+function editItem(index){
 
+  let newName = prompt("सामान का नाम", items[index].name);
+  if(newName === null) return;
+
+  let newAmount = prompt("₹ कीमत", items[index].amount);
+  if(newAmount === null) return;
+
+  newAmount = parseFloat(newAmount);
+  if(isNaN(newAmount)) return alert("गलत कीमत");
+
+  items[index].name = newName.trim();
+  items[index].amount = newAmount;
+
+  save();
+  render();
+}
 function undoDelete(){
   if(lastDeleted){
     items.splice(lastDeleted.index,0,lastDeleted.item);
