@@ -109,6 +109,7 @@ function undoDelete(){
 function render() {
   list.innerHTML = "";
   t = 0;
+  let count = 0;
 
   items.forEach((x, index) => {
     t += x.amount;
