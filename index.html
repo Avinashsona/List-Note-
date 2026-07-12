@@ -144,13 +144,21 @@ function render() {
   </span>
 
   <span>
-    ₹${x.amount.toFixed(2)}
-    <button type="button"
+₹${x.amount.toFixed(2)}
+
+<button type="button"
+onclick="editItem(${index})"
+style="background:#28a745;color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;margin-right:5px;">
+Edit
+</button>
+
+<button type="button"
 onclick="removeItem(${index})"
 style="background:#28a745;color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;">
 Remove
 </button>
-  </span>
+
+</span>
 </label>`;
     list.appendChild(d);
   });
