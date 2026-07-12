@@ -124,7 +124,7 @@ function render() {
   <span>
     <input type="checkbox" ${x.done ? "checked" : ""}
     onchange="items[${index}].done=this.checked;save();render();">
-    ${x.done ? "<s>"+x.name+"</s>" : x.name}
+    ${count}. ${x.done ? "<s>"+x.name+"</s>" : x.name}
   </span>
 
   <span>
